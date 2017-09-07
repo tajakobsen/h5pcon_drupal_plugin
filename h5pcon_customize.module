@@ -1,0 +1,29 @@
+<?php
+
+/**
+ * Alter the styles
+ */
+function h5pcon_customize_h5p_styles_alter(&$styles, $libraries, $mode) {
+  $styles[] = (object) array(
+    // Path relative to drupal root
+    'path' => drupal_get_path('module', 'h5pcon_customize') . '/theme.css',
+    'version' => '?ver=1', // Cache buster
+  );
+
+
+  if (isset($libraries['H5P.TrueFalse'])) {
+    $styles[] = (object) array(
+      'path'    => drupal_get_path('module', 'h5pcon_customize') . '/truefalse-theme.css',
+      'version' => '?ver=1',
+    );
+  }
+}
+
+/**
+ * Alter the semantics
+ */
+function h5pcon_customize_h5p_semantics_alter(&$semantics, $machine_name, $major_version, $minor_version) {
+  if ($machine_name == 'H5P.SingleChoiceSet') {
+    $semantics[0]->field->fields[0]->tags[] = 'sub';
+  }
+}
